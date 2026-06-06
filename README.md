@@ -1,0 +1,2 @@
+# LocalAIAgent
+Foundry Local
