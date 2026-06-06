@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="9.1.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.1.0" />
+    <PackageReference Include="ReactiveProperty" Version="9.8.0" />
+    <PackageReference Include="ReactiveProperty.Core" Version="9.8.0" />
+    <PackageReference Include="ReactiveProperty.WPF" Version="9.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocalAIAgentApp.AI\LocalAIAgentApp.AI.csproj" />
+    <ProjectReference Include="..\LocalAIAgentApp.Model\LocalAIAgentApp.Model.csproj" />
+  </ItemGroup>
+
+</Project>
