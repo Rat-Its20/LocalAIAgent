@@ -94,6 +94,7 @@ namespace LocalAIAgentApp.Model.Services
 
             // AppSettings クラスの ModelFolderPath プロパティが null または空でない場合は、モデルが存在するかどうかを確認します。
             {
+                // TODO：Modelが存在するかを判定するロジックを作成。
                 if (Path.Exists(appSettings.ModelFolderPath))
                 {
                     appSettings.IsModel = true;
@@ -175,5 +176,21 @@ namespace LocalAIAgentApp.Model.Services
         }
 
         #endregion << Json >>
+
+        #region << Save >>
+
+        /// <summary>
+        /// SaveAppSettings メソッドは、AppSettings オブジェクトを JSON 形式で AppSettings.json ファイルに保存するためのメソッドです。
+        /// </summary>
+        /// <param name="appSettings">保存する AppSettings オブジェクト</param>
+        public void SaveAppSettings(AppSettings appSettings)
+        {
+            if (appSettings != null)
+            {
+                WriteJson(appSettings, FileType.AppSettings);
+            }
+        }
+
+        #endregion << Save >>
     }
 }

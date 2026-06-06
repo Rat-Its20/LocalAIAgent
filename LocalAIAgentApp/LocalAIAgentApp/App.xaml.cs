@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using LocalAIAgentApp.Model.Services;
+using LocalAIAgentApp.Model.Services;       
+using LocalAIAgentApp.Views;
 using LocalAIAgentApp.ViewModels;
 using LocalAIAgentApp.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +40,6 @@ namespace LocalAIAgentApp
             using (ILifetimeScope scope = _container.BeginLifetimeScope())
             {
                 MainWindow mainWindow = scope.Resolve<MainWindow>();
-                mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 mainWindow.DataContext = scope.Resolve<MainWindowViewModel>();
                 mainWindow.Show();
             }

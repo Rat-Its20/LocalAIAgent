@@ -12,7 +12,7 @@ Foundary Localを利用した構築の方法の検討・性能検証用のデモ
 | LocalAgentApp.Model | C# Library | その他の機能を提供 |
 | LocalAgentApp.AI | C# Library | AI関連の機能を提供 |
 
-## ライセンス
+## OSS
 
 ### - LocalAgentApp
 
@@ -21,6 +21,7 @@ Foundary Localを利用した構築の方法の検討・性能検証用のデモ
 | Autofac | MIT | 9.1.0 | DIコンテナ本体 |
 | Autofac.Extensions.DependencyInjection | MIT | 11.0.0 | DIコンテナ・アダプター |
 | Autofac.Extras.DynamicProxy | MIT | 7.1.0 | ログ・計測用 |
+| Microsoft.Xaml.Behaviors.Wpf | MIT | 1.1.142 | XAML拡張OSS |
 | ReactiveProperty | MIT | 9.8.0 | ReactiveProperty |
 | ReactiveProperty.Core | MIT | 9.8.0 | ReactiveProperty |
 | ReactiveProperty.WPF | MIT | 9.8.0 | ReactiveProperty |

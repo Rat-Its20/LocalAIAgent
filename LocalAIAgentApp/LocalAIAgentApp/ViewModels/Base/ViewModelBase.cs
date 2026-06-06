@@ -24,15 +24,5 @@
         /// SetSubscribe メソッドは、ViewModel が必要とするイベントの購読や、データのバインディングなどの設定を行うためのメソッドです。
         /// </summary>
         public abstract void SetSubscribe();
-
-        /// <summary>
-        /// OnConstructorCompleted メソッドは、コンストラクタの処理が完了した際に呼び出されるイベントハンドラーです。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnConstructorCompleted(object sender, EventArgs e)
-        {
-            SetSubscribe();
-        }
     }
 }
