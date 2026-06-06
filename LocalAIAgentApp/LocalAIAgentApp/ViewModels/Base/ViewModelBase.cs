@@ -1,4 +1,6 @@
-﻿namespace LocalAIAgentApp.ViewModels.Base
+﻿using LocalAIAgentApp.Contracts;
+
+namespace LocalAIAgentApp.ViewModels.Base
 {
     public abstract class ViewModelBase : IViewModelBase
     {

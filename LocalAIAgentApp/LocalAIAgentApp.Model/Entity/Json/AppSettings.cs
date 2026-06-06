@@ -3,10 +3,10 @@
     public class AppSettings
     {
         /// <summary>
-        /// IsModel プロパティは、モデルが存在するかどうかを示すフラグを格納するためのプロパティです。
-        /// デフォルト値は false です。
+        /// IsCheckModel プロパティは、モデルのチェックを行うかどうかを示すブール値を格納するためのプロパティです。
+        /// デフォルト値は true です。
         /// </summary>
-        public bool IsModel { get; set; } = false;
+        public bool IsCheckModel { get; set; } = true;
 
         /// <summary>
         /// ModelFolderPath プロパティは、モデルのフォルダパスを格納するためのプロパティです。

@@ -1,4 +1,4 @@
-﻿namespace LocalAIAgentApp.ViewModels.Base
+﻿namespace LocalAIAgentApp.Contracts
 {
     interface IViewModelBase
     {

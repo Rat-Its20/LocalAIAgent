@@ -6,6 +6,7 @@ using LocalAIAgentApp.ViewModels;
 using LocalAIAgentApp.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using LocalAIAgentApp.AI;
 
 namespace LocalAIAgentApp
 {
@@ -53,6 +54,10 @@ namespace LocalAIAgentApp
         /// <param name="services"></param>
         private void ConfigureServices(IServiceCollection services)
         {
+            // LocalAIAgentApp.AI
+            services.AddSingleton<FoundryLocalFacade>();
+
+            // LocalAIAgentApp.Model
             services.AddSingleton<FileService>();
         }
 

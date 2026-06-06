@@ -1,4 +1,6 @@
-﻿namespace LocalAIAgentApp.Model.Base
+﻿using LocalAIAgentApp.Model.Contracts;
+
+namespace LocalAIAgentApp.Model.Base
 {
     public abstract class ServiceBase : IServiceBase
     {

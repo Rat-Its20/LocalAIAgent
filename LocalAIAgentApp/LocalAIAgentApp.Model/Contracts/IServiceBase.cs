@@ -1,4 +1,4 @@
-﻿namespace LocalAIAgentApp.Model.Base
+﻿namespace LocalAIAgentApp.Model.Contracts
 {
     public interface IServiceBase : IDisposable
     {

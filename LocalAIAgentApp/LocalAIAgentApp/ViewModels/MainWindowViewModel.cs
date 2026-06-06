@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using LocalAIAgentApp.AI;
 using LocalAIAgentApp.Model.Entity.Json;
 using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.ViewModels.Base;
@@ -25,6 +26,11 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         private FileService _fileService { get; set; }
 
+        /// <summary>
+        /// Service：FoundryLocalFacade
+        /// </summary>
+        private FoundryLocalFacade _foundryLocalFacade { get; set; }
+
         #region << Property >>
         /// <summary>
         /// test
@@ -49,9 +55,11 @@ namespace LocalAIAgentApp.ViewModels
         /// <summary>
         /// Constructor
         /// </summary>
-        public MainWindowViewModel(ILifetimeScope lifetimeScope, FileService fileService) : base()
+        public MainWindowViewModel(ILifetimeScope lifetimeScope, FileService fileService, FoundryLocalFacade foundryLocalFacade) : base()
         {
             _lifetimeScope = lifetimeScope;
+
+            _foundryLocalFacade = foundryLocalFacade;
 
             // FileService 
             {
@@ -80,13 +88,20 @@ namespace LocalAIAgentApp.ViewModels
             // Window 読み込み時
             LoadCommand.Subscribe(_ =>
             {
-                // モデルが存在しない場合の処理
+                // モデルの初期設定が必要かを判定
                 {
-                    if (!_appSettings.IsModel)
+                    // モデルフォルダが存在する場合の確認
+                    if (!_appSettings.IsCheckModel)
                     {
-                        // モデル設定ウィンドウを開く
-                        OpenModelSettingWindow();
+                        // TODO：モデルの存在確認を行う
                     }
+                }
+
+                // モデルの初期設定が必要な場合は、モデル設定ウィンドウを開く
+                if (_appSettings.IsCheckModel)
+                {
+                    // モデル設定ウィンドウを開く
+                    OpenModelSettingWindow();
                 }
             });
 
@@ -114,8 +129,7 @@ namespace LocalAIAgentApp.ViewModels
 
             // ViewModel関連の処理
             {
-                // AppSettings を ModelSettingWindowViewModel に渡す
-                modelSettingWindowViewModel.AppSettings = _appSettings;
+                modelSettingWindowViewModel.SetServices(_appSettings, _foundryLocalFacade);
             }
 
             // Window関連の処理
@@ -126,8 +140,9 @@ namespace LocalAIAgentApp.ViewModels
                 // モデル設定ウィンドウが閉じられたときの処理を追加
                 modelSettingWindow.Closing += (sender, e) =>
                 {
-                    // AppSettings を ModelSettingWindowViewModel から MainWindowViewModel に返却
-                    _appSettings = modelSettingWindowViewModel.AppSettings;
+                    // モデル設定ウィンドウが閉じられたときに、MainWindowViewModelのAppSettingsとFoundryLocalFacadeを更新
+                    _appSettings = modelSettingWindowViewModel._appSettings;
+                    _foundryLocalFacade = modelSettingWindowViewModel._foundryLocalFacade;
                 };
             }
 

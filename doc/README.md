@@ -37,3 +37,11 @@ Foundary Localを利用した構築の方法の検討・性能検証用のデモ
 | OSS | ライセンス | バージョン | 概要 |
 | ---- | ---- | ---- | ---- |
 | System.Text.Json | MIT | 10.0.8 | JSONを扱うためのライブラリ |
+
+## AIモデル
+下記のモデルはどのモデルであっても同梱可能、商用利用も問題なし。
+| OSS | ライセンス | クレジット表記 |
+| ---- | ---- | ---- |
+| Phi-4-mini-instruct | MIT | LICENSE |
+| Qwen-7B | Apache License 2.0 | LICENSE ＆ NOTICE |
+| Mistral-7B-v0.1t | Apache License 2.0 | LICENSE ＆ NOTICE |

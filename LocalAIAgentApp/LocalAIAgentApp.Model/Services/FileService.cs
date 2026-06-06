@@ -92,13 +92,12 @@ namespace LocalAIAgentApp.Model.Services
                 appSettings = ReadJson<AppSettings>(FileType.AppSettings);
             }
 
-            // AppSettings クラスの ModelFolderPath プロパティが null または空でない場合は、モデルが存在するかどうかを確認します。
+            // AppSettings.json に ModelFolderPath が存在しない場合は、初期状態とみなす。
             {
-                // TODO：Modelが存在するかを判定するロジックを作成。
-                if (Path.Exists(appSettings.ModelFolderPath))
+                if (!Directory.Exists(appSettings.ModelFolderPath))
                 {
-                    appSettings.IsModel = true;
-                }                
+                    appSettings.IsCheckModel = true;
+                }
             }
 
             return appSettings;
