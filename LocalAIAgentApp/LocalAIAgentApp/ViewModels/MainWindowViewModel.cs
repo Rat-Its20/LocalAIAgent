@@ -2,6 +2,7 @@
 using LocalAIAgentApp.Model.Entity.Json;
 using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.ViewModels.Base;
+using LocalAIAgentApp.Views;
 using Reactive.Bindings;
 using System.Diagnostics;
 
@@ -13,6 +14,11 @@ namespace LocalAIAgentApp.ViewModels
         /// Field：AppSettings は、アプリケーションの設定を格納するためのプロパティです。
         /// </summary>
         private AppSettings _appSettings { get; set; }
+
+        /// <summary>
+        /// Field：ILifetimeScope は、依存性注入のスコープを管理するためのプロパティです。
+        /// </summary>
+        private ILifetimeScope _lifetimeScope { get; set; }
 
         /// <summary>
         /// Service：FileService
@@ -45,6 +51,8 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public MainWindowViewModel(ILifetimeScope lifetimeScope, FileService fileService) : base()
         {
+            _lifetimeScope = lifetimeScope;
+
             // FileService 
             {
                 _fileService = fileService;
@@ -76,7 +84,8 @@ namespace LocalAIAgentApp.ViewModels
                 {
                     if (!_appSettings.IsModel)
                     {
-
+                        // モデル設定ウィンドウを開く
+                        OpenModelSettingWindow();
                     }
                 }
             });
@@ -91,5 +100,41 @@ namespace LocalAIAgentApp.ViewModels
                 }
             });
         }
+
+        #region << Window >>
+
+        /// <summary>
+        /// OpenModelSettingWindow は ModelSettingWindow を開くためのメソッドです。
+        /// </summary>
+        private void OpenModelSettingWindow()
+        {
+            // ModelSettingWindowViewModel と ModelSettingWindow を依存性注入コンテナから解決
+            ModelSettingWindowViewModel modelSettingWindowViewModel = _lifetimeScope.Resolve<ModelSettingWindowViewModel>();
+            ModelSettingWindow modelSettingWindow = _lifetimeScope.Resolve<ModelSettingWindow>();
+
+            // ViewModel関連の処理
+            {
+                // AppSettings を ModelSettingWindowViewModel に渡す
+                modelSettingWindowViewModel.AppSettings = _appSettings;
+            }
+
+            // Window関連の処理
+            {
+                modelSettingWindow.Owner = App.Current.MainWindow;
+                modelSettingWindow.DataContext = modelSettingWindowViewModel;
+
+                // モデル設定ウィンドウが閉じられたときの処理を追加
+                modelSettingWindow.Closing += (sender, e) =>
+                {
+                    // AppSettings を ModelSettingWindowViewModel から MainWindowViewModel に返却
+                    _appSettings = modelSettingWindowViewModel.AppSettings;
+                };
+            }
+
+            // モデル設定ウィンドウを表示
+            modelSettingWindow.ShowDialog();
+        }
+
+        #endregion << Window >>
     }
 }

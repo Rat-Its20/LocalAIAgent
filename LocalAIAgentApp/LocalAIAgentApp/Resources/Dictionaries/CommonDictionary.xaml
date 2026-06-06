@@ -1,5 +1,12 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!--  Common styles and resources can be defined here  -->
+    <sys:Double x:Key="MainWindow.Width">1280</sys:Double>
+    <sys:Double x:Key="MainWindow.Height">768</sys:Double>
+
+    <sys:Double x:Key="ModelSettingWindow.Width">800</sys:Double>
+    <sys:Double x:Key="ModelSettingWindow.Height">450</sys:Double>
 
 </ResourceDictionary>

@@ -6,9 +6,9 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:LocalAIAgentApp.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MainWindow"
-    Width="800"
-    Height="450"
+    xmlns:properties="clr-namespace:LocalAIAgentApp.Resources.Languages"
+    Title="{x:Static properties:Resources.ApplicationTitle}"
+    Style="{StaticResource MainWindow.Style}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 

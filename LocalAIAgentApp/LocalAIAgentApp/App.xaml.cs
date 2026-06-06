@@ -64,7 +64,9 @@ namespace LocalAIAgentApp
         private void ConfigureViews(ContainerBuilder builder)
         {
             builder.RegisterType<MainWindow>().AsSelf();
+            builder.RegisterType<ModelSettingWindow>().AsSelf();
 
+            builder.RegisterType<ModelSettingWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
             builder.RegisterType<MainWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
         }
     }
