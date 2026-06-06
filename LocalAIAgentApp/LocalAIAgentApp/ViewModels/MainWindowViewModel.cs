@@ -1,20 +1,15 @@
-﻿using LocalAIAgentApp.Model.Services;
+﻿using LocalAIAgentApp.Model.Entity.Json;
+using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LocalAIAgentApp.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         /// <summary>
-        /// Field：Modelが存在するかどうかを示すフラグです。
+        /// Field：AppSettings は、アプリケーションの設定を格納するためのプロパティです。
         /// </summary>
-        private bool _isModel { get; set; } = true;
+        private AppSettings _appSettings { get; set; }
 
         /// <summary>
         /// Service：FileService
@@ -26,9 +21,13 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public MainWindowViewModel(FileService fileService) : base()
         {
-            // Service を ViewModel に注入します。
-            _fileService = fileService;
-            _isModel = _fileService.InitializeFolderConfigure(AppDomain.CurrentDomain.BaseDirectory);
+            // FileService 
+            {
+                _fileService = fileService;
+
+                // 初期化処理：ファイルの存在確認と AppSettings の読み込み
+                _appSettings = _fileService.InitializeFolderConfigure(AppDomain.CurrentDomain.BaseDirectory);
+            }
         }
 
         public override void Initialize()

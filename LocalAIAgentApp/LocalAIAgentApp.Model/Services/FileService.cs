@@ -65,12 +65,9 @@ namespace LocalAIAgentApp.Model.Services
         /// InitializeFolderConfigure メソッドは、実行可能ファイルのパスを設定するためのメソッドです。
         /// </summary>
         /// <param name="exePath">実行可能ファイルのパス</param>
-        /// <returns>モデルが存在するかどうかを示すフラグ</returns>
-        public bool InitializeFolderConfigure(string exePath)
+        /// <returns>AppSettings オブジェクト</returns>
+        public AppSettings InitializeFolderConfigure(string exePath)
         {
-            // モデルが存在するかどうかを示すフラグを初期化します。
-            bool isModel = false;
-
             // 初期化
             AppSettings appSettings = new AppSettings();
 
@@ -99,11 +96,11 @@ namespace LocalAIAgentApp.Model.Services
             {
                 if (Path.Exists(appSettings.ModelFolderPath))
                 {
-                    isModel = true;
+                    appSettings.IsModel = true;
                 }                
             }
 
-            return isModel;
+            return appSettings;
         }
 
         #region << File >>
