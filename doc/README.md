@@ -35,4 +35,4 @@ Foundary Localを利用した構築の方法の検討・性能検証用のデモ
 
 | OSS | ライセンス | バージョン | 概要 |
 | ---- | ---- | ---- | ---- |
-| Microsoft.AI.Foundry.Local | MIT | 1.2.1 | Foundary Local 本体 |
+| System.Text.Json | MIT | 10.0.8 | JSONを扱うためのライブラリ |

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.ViewModels;
 using LocalAIAgentApp.ViewModels.Base;
 using Microsoft.Extensions.DependencyInjection;
@@ -52,7 +53,7 @@ namespace LocalAIAgentApp
         /// <param name="services"></param>
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<MainWindowViewModel>();
+            services.AddSingleton<FileService>();
         }
 
         /// <summary>
