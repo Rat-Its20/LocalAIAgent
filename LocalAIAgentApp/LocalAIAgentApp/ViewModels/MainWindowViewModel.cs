@@ -123,7 +123,8 @@ namespace LocalAIAgentApp.ViewModels
             // TestCommand の購読を設定
             TestCommand.Subscribe(async() =>
             {
-                await _foundryLocalFacade.TestChat(_appSettings.ModelFolderPath);
+                // テスト用の処理を実行するためのメソッドを呼び出す
+                await _foundryLocalFacade.TestChat();
             });
 
             // タイトルバーの左クリックイベントに対応するコマンドの購読を設定
@@ -160,6 +161,9 @@ namespace LocalAIAgentApp.ViewModels
                 {
                     // AppSettings
                     _fileService.SaveAppSettings(_appSettings);
+
+                    // FoundryLocalFacade
+                    _foundryLocalFacade.Dispose();
                 }
             });
 
@@ -202,7 +206,7 @@ namespace LocalAIAgentApp.ViewModels
 
             // ViewModel関連の処理
             {
-                modelSettingWindowViewModel.SetServices(_appSettings, _dialogService, _foundryLocalFacade);
+                modelSettingWindowViewModel.SetServices(_appSettings, _dialogService, _fileService, _foundryLocalFacade);
             }
 
             // Window関連の処理

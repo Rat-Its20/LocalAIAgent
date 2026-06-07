@@ -1,5 +1,6 @@
 ﻿using LocalAIAgentApp.AI;
 using LocalAIAgentApp.Model.Entity.Json;
+using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.Services;
 using LocalAIAgentApp.ViewModels.Base;
 using LocalAIAgentApp.Views;
@@ -30,14 +31,47 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         private DialogService _dialogService { get; set; }
 
+        /// <summary>
+        /// Service：FileService
+        /// </summary>
+        private FileService _fileService { get; set; }
+
         #endregion << Service >>
 
         #region << Property >>
 
         /// <summary>
-        /// Property：ModelPath は、ユーザーが選択したモデルのパスを格納するためのプロパティです。
+        /// Property：WorkDirectory は、ユーザーが選択した作業ディレクトリのパスを格納するためのプロパティです。
         /// </summary>
-        public ReactiveProperty<string> ModelPath { get; set; } = new ReactiveProperty<string>();
+        public ReactiveProperty<string> WorkDirectory { get; set; } = new ReactiveProperty<string>();
+
+        /// <summary>
+        /// Property：IsEnableModelSettingGroup は、モデル設定グループの有効/無効を示すブール値を格納するためのプロパティです。
+        /// デフォルト値は false です。
+        /// </summary>
+        public ReactiveProperty<bool> IsEnableModelSettingGroup { get; set; } = new ReactiveProperty<bool>(false);
+
+        /// <summary>
+        /// Property：IsEnableModelAliasCollection は、モデルエイリアスのコレクションの有効/無効を示すブール値を格納するためのプロパティです。
+        /// デフォルト値は false です。
+        /// </summary>
+        public ReactiveProperty<bool> IsEnableModelAliasCollection { get; set; } = new ReactiveProperty<bool>(false);
+
+        /// <summary>
+        /// Collection：ModelAliasCollection は、モデルのエイリアスのコレクションを格納するためのプロパティです。
+        /// </summary>
+        public ReactiveCollection<string> ModelAliasCollection { get; set; } = new ReactiveCollection<string>();
+
+        /// <summary>
+        /// Property：SelectedModelAlias は、ユーザーが選択したモデルのエイリアスを格納するためのプロパティです。
+        /// </summary>
+        public ReactiveProperty<string> SelectedModelAlias { get; set; } = new ReactiveProperty<string>();
+
+        /// <summary>
+        /// Property：IsEnableReferenceButton は、参照ボタンの有効/無効を示すブール値を格納するためのプロパティです。
+        /// デフォルト値は true です。
+        /// </summary>
+        public ReactiveProperty<bool> IsEnableReferenceButton { get; set; } = new ReactiveProperty<bool>(true); 
 
         #endregion << Property >>
 
@@ -47,6 +81,11 @@ namespace LocalAIAgentApp.ViewModels
         /// 参照コマンド：ReferenceCommand は、ユーザーが参照ボタンをクリックしたときに実行されるコマンドです。
         /// </summary>
         public ReactiveCommand ReferenceCommand { get; set; } = new ReactiveCommand();
+
+        /// <summary>
+        /// 読込コマンド：AliasLoadCommand は、ユーザーが読込ボタンをクリックしたときに実行されるコマンドです。
+        /// </summary>
+        public ReactiveCommand AliasLoadCommand { get; set; } = new ReactiveCommand();
 
         /// <summary>
         /// 保存コマンド：SaveCommand は、ユーザーが保存ボタンをクリックしたときに実行されるコマンドです。
@@ -91,12 +130,54 @@ namespace LocalAIAgentApp.ViewModels
             ReferenceCommand.Subscribe(() =>
             {
                 // ダイアログを開いてフォルダを選択。
-                string result = _dialogService.OpenFolderDialog(ModelPath.Value);
+                string result = _dialogService.OpenFolderDialog(WorkDirectory.Value);
 
-                // 選択されたフォルダが存在する場合は、ModelPath プロパティにそのパスを設定
+                // 選択されたフォルダが存在する場合は、WorkDirectory プロパティにそのパスを設定
                 if (Directory.Exists(result))
                 {
-                    ModelPath.Value = result;
+                    // WorkDirectory プロパティに選択されたフォルダのパスを設定
+                    WorkDirectory.Value = result;
+
+                    // モデル設定グループを有効にするために、IsEnableModelSettingGroup プロパティを true に設定
+                    IsEnableModelSettingGroup.Value = true;
+                }
+            });
+
+            // 読込コマンドの購読を設定
+            AliasLoadCommand.Subscribe(async() =>
+            {
+                // Enable制御
+                {
+                    // モデルエイリアスのコレクションを一時的に無効化して、ユーザーがモデルのエイリアスのリストを更新する前に、モデルのエイリアスのコレクションを操作できないようにします。
+                    IsEnableModelAliasCollection.Value = false;
+
+                    // IsEnableReferenceButton プロパティを false に設定して、ユーザーが参照ボタンをクリックできないようにします。
+                    IsEnableReferenceButton.Value = false;
+                }
+
+                // WorkDirectory プロパティの値が有効なフォルダパスであることを検証するロジックを実装する必要があります。
+                if (!_foundryLocalFacade.isInitialized)
+                {
+                    await _foundryLocalFacade.CreateManager(_appSettings.WorkDirectoryPath);
+                }
+
+                // SelectedModelAlias を初期化し、ModelAliasCollection をクリアしてから、FoundryLocalFacade を使用してモデルのエイリアスのリストを取得し、ModelAliasCollection に追加します。
+                SelectedModelAlias.Value = string.Empty;
+                ModelAliasCollection.Clear();
+
+                // FoundryLocalFacade を使用してモデルのエイリアスのリストを取得し、ModelAliasCollection に追加します。
+                ModelAliasCollection.AddRangeOnScheduler(await _foundryLocalFacade.GetAliasList());
+
+                // AppSettings の UseModelAlias の値を SelectedModelAlias に設定します。
+                SelectedModelAlias.Value = _appSettings.UseModelAlias;
+
+                // Enable制御
+                {
+                    // モデルエイリアスのコレクションを有効化
+                    IsEnableModelAliasCollection.Value = true;
+
+                    // 参照ボタンを再度有効にします。
+                    IsEnableReferenceButton.Value = true;
                 }
             });
 
@@ -106,8 +187,17 @@ namespace LocalAIAgentApp.ViewModels
                 // ValidateChecker メソッドを呼び出して、ユーザーが入力した値の検証を行います。
                 if (ValidateChecker())
                 {
-                    // ModelPath プロパティの値を AppSettings の ModelFolderPath に保存
-                    _appSettings.ModelFolderPath = ModelPath.Value;
+                    // appSettings のプロパティに、ユーザーが入力した値を保存します。
+                    {
+                        // WorkDirectory プロパティの値を AppSettings の WorkDirectoryPath に保存
+                        _appSettings.WorkDirectoryPath = WorkDirectory.Value;
+
+                        // SelectedModelAlias プロパティの値を AppSettings の UseModelAlias に保存
+                        _appSettings.UseModelAlias = SelectedModelAlias.Value;
+                    }
+
+                    // AppSettings を保存
+                    _fileService.SaveAppSettings(_appSettings);
 
                     MessageBox.Show("保存しました。", "保存", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -129,19 +219,28 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         /// <param name="appSettings">アプリケーションの設定を格納する AppSettings インスタンス</param>
         /// <param name="dialogService">DialogService インスタンス</param>
+        /// <param name="fileService">FileService インスタンス</param>
         /// <param name="foundryLocalFacade">FoundryLocalFacade インスタンス</param>
-        internal void SetServices(AppSettings appSettings, DialogService dialogService, FoundryLocalFacade foundryLocalFacade)
+        internal void SetServices(AppSettings appSettings, DialogService dialogService, FileService fileService, FoundryLocalFacade foundryLocalFacade)
         {
             // Serviceを設定
             {
                 _appSettings = appSettings;
                 _dialogService = dialogService;
+                _fileService = fileService;
                 _foundryLocalFacade = foundryLocalFacade;
             }
 
+            // 初期化
             {
-                // ModelPath プロパティに AppSettings の ModelFolderPath の値を設定
-                ModelPath.Value = _appSettings.ModelFolderPath;
+                // ModelAliasCollection をクリア
+                ModelAliasCollection.Clear();
+
+                // SelectedModelAlias を初期化
+                SelectedModelAlias.Value = _appSettings.UseModelAlias;
+
+                // WorkDirectory プロパティに AppSettings の WorkDirectoryPath の値を設定
+                WorkDirectory.Value = _appSettings.WorkDirectoryPath;
             }
         }
 
@@ -151,14 +250,15 @@ namespace LocalAIAgentApp.ViewModels
         /// <returns></returns>
         private bool ValidateChecker()
         {
-            // TODO：ModelPath プロパティの値が有効なフォルダパスであることを検証するロジックを実装する必要があります。
+            // TODO：WorkDirectory プロパティの値が有効なフォルダパスであることを検証するロジックを実装する必要があります。
             bool isValid = true;
 
+            // WorkDirectory プロパティの値が有効なフォルダパスであることを検証
             {
-                 if (string.IsNullOrEmpty(ModelPath.Value) || !Directory.Exists(ModelPath.Value))
+                if (string.IsNullOrEmpty(WorkDirectory.Value) || !Directory.Exists(WorkDirectory.Value))
                 {
                     isValid = false;
-                    MessageBox.Show("モデルの読み込み先が無効です。\n有効なモデルのフォルダパスを入力してください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("作業ディレクトリが無効です。\n有効な作業ディレクトリのパスを入力してください。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 

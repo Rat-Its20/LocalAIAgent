@@ -9,9 +9,15 @@
         public bool IsCheckModel { get; set; } = true;
 
         /// <summary>
-        /// ModelFolderPath プロパティは、モデルのフォルダパスを格納するためのプロパティです。
+        /// WorkDirectoryPath プロパティは、モデルのフォルダパスを格納するためのプロパティです。
         /// デフォルト値は空文字列です。
         /// </summary>
-        public string ModelFolderPath { get; set; } = string.Empty;
+        public string WorkDirectoryPath { get; set; } = string.Empty;
+
+        /// <summary>
+        /// UseModelAlias プロパティは、モデルのエイリアスを使用するかどうかを示す文字列を格納するためのプロパティです。
+        /// デフォルト値は空文字列です。
+        /// </summary>
+        public string UseModelAlias { get; set; } = string.Empty;
     }
 }

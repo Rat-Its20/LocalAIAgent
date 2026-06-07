@@ -92,9 +92,9 @@ namespace LocalAIAgentApp.Model.Services
                 appSettings = ReadJson<AppSettings>(FileType.AppSettings);
             }
 
-            // AppSettings.json に ModelFolderPath が存在しない場合は、初期状態とみなす。
+            // AppSettings.json に WorkDirectoryPath が存在しない場合は、初期状態とみなす。
             {
-                if (!Directory.Exists(appSettings.ModelFolderPath))
+                if (!Directory.Exists(appSettings.WorkDirectoryPath))
                 {
                     appSettings.IsCheckModel = true;
                 }

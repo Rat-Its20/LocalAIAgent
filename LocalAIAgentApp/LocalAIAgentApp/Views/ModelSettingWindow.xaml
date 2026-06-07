@@ -65,13 +65,44 @@
         <Grid Grid.Row="1" Margin="8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Style="{StaticResource Grid.Row5}" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Style="{StaticResource Grid.Row5}" />
                 <RowDefinition Height="*" />
+                <RowDefinition Style="{StaticResource Grid.Row5}" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <GroupBox Grid.Row="0" Header="AI Model">
+            <!--  作業ディレクトリ  -->
+            <GroupBox Grid.Row="0" Header="作業ディレクトリの設定">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Content="作業ディレクトリを選択してください。" />
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Style="{StaticResource Grid.Column5}" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding WorkDirectory.Value}" />
+                        <Button
+                            Grid.Column="2"
+                            Command="{Binding ReferenceCommand}"
+                            Content="{x:Static properties:Resources.Common_Reference}" />
+                    </Grid>
+                </Grid>
+            </GroupBox>
 
-                <Grid Margin="10">
+            <GroupBox
+                Grid.Row="2"
+                Padding="0,15,0,0"
+                Header="モデル設定"
+                IsEnabled="{Binding IsEnableModelSettingGroup.Value}">
+
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Style="{StaticResource Grid.Row5}" />
@@ -79,48 +110,38 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <!--  モデルの保存先  -->
-                    <GroupBox Grid.Row="0" Header="モデルの保存先">
-                        <Grid Margin="5">
+                    <!--  モデルの読み込み  -->
+                    <GroupBox Grid.Row="0" Header="モデルの選択">
+                        <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Label Content="モデルの保存先のフォルダを選択してください。" />
-                            <Grid Grid.Row="2">
+                            <Label Grid.Row="0" Content="利用するモデルを選択してください。" />
+                            <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Style="{StaticResource Grid.Column5}" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Text="{Binding ModelPath.Value}" />
+                                <ComboBox
+                                    Grid.Row="0"
+                                    IsEnabled="{Binding IsEnableModelAliasCollection.Value}"
+                                    ItemsSource="{Binding ModelAliasCollection}"
+                                    SelectedValue="{Binding SelectedModelAlias.Value}" />
                                 <Button
                                     Grid.Column="2"
-                                    Command="{Binding ReferenceCommand}"
-                                    Content="{x:Static properties:Resources.Common_Reference}" />
+                                    Command="{Binding AliasLoadCommand}"
+                                    Content="読込"
+                                    IsEnabled="{Binding IsEnableReferenceButton.Value}" />
                             </Grid>
-                        </Grid>
-                    </GroupBox>
-
-                    <!--  モデルの読み込み  -->
-                    <GroupBox Grid.Row="2" Header="モデルの読み込み">
-                        <Grid Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Label Content="モデルを読み込むと、モデルの情報が表示されます。" />
-                            <StackPanel Grid.Row="1" Orientation="Vertical">
-                                <RadioButton VerticalContentAlignment="Center" Content="モデルを起動時に自動で読み込む" />
-                            </StackPanel>
                         </Grid>
                     </GroupBox>
 
                 </Grid>
             </GroupBox>
 
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
