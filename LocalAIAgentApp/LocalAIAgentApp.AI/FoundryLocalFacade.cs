@@ -23,6 +23,21 @@ namespace LocalAIAgentApp.AI
         /// </summary>
         private FoundryLocalManager _foundryLocalManager { get; set; }
 
+        /// <summary>
+        /// Field：catalog は、ICatalog インターフェイスのインスタンスを格納するためのプロパティです。
+        /// </summary>
+        private ICatalog _catalog { get; set; }
+
+        /// <summary>
+        /// Field：modelDef は、IModel インターフェイスのインスタンスを格納するためのプロパティです。
+        /// </summary>
+        private IModel _modelDef { get; set; }
+
+        /// <summary>
+        /// Field：chatClient は、OpenAIChatClient クラスのインスタンスを格納するためのプロパティです。
+        /// </summary>
+        private OpenAIChatClient _chatClient { get; set; }
+
         #region << Service >>
 
         /// <summary>
@@ -66,6 +81,12 @@ namespace LocalAIAgentApp.AI
             // FoundryLocalManager のインスタンスを取得します。
             _foundryLocalManager = FoundryLocalManager.Instance;
 
+            // カタログクライアントを取得します。
+            if (_catalog == null)
+            {
+                _catalog = await GetCatalogAsync();
+            }
+
             // isInitialized を true に設定します。
             isInitialized = true;
         }
@@ -100,12 +121,60 @@ namespace LocalAIAgentApp.AI
             }
 
             // カタログクライアントを取得します。
-            ICatalog catalog = await GetCatalogAsync();
+            if (_catalog == null)
+            {
+                _catalog = await GetCatalogAsync();
+            }
 
             // カタログ内のモデルをリストし、そのエイリアスをリストにします。
-            result = (await catalog.ListModelsAsync()).Select(m => m.Alias).ToList();
+            result = (await _catalog.ListModelsAsync()).Select(m => m.Alias).ToList();
 
             return result;
+        }
+
+        /// <summary>
+        /// InitializeChatMode メソッドは、指定されたモデルのエイリアスを使用して、チャットモードを初期化するためのメソッドです。
+        /// </summary>
+        /// <param name="modelAlias">モデルのエイリアス</param>
+        /// <returns></returns>
+        public async Task InitializeChatMode(string modelAlias)
+        {
+            // カタログクライアントを取得します。
+            if (_catalog == null)
+            {
+                _catalog = await GetCatalogAsync();
+            }
+
+            // TODO：モデルのエイリアスが存在するかどうかを確認する処理を追加することも検討する。
+            if (!modelAlias.Equals("phi-4-mini"))
+            {
+                return;
+            }
+
+            // モデルをカタログに追加します。
+            _modelDef = await _catalog.GetModelAsync(modelAlias);
+
+            // モデルが初期化されているかどうかを確認します。
+            {
+                // モデルがキャッシュされているかどうかを確認します。
+                if (!await _modelDef.IsCachedAsync())
+                {
+                    // モデルをダウンロードします。
+                    // どこにダウンロードされるかは、FoundryLocalManager の構成によって異なります。
+                    // デフォルトでは、ユーザーのローカルアプリデータフォルダ内の "FoundryLocal" フォルダにダウンロードされます。
+                    await _modelDef.DownloadAsync();
+                }
+
+                // モデルがロードされているかどうかを確認します。 
+                if (!await _modelDef.IsLoadedAsync())
+                {
+                    // モデルをロードします。
+                    await _modelDef.LoadAsync();
+                }
+            }
+
+            // チャットクライアントを取得します。
+            _chatClient = await _modelDef.GetChatClientAsync();
         }
 
         /// <summary>
@@ -114,33 +183,8 @@ namespace LocalAIAgentApp.AI
         /// <returns></returns>
         public async Task TestChat()
         {
-            // カタログクライアントを取得します。
-            ICatalog catalog = await GetCatalogAsync();
-
-            // モデルをカタログに追加します。
-            var modelDef = await catalog.GetModelAsync("phi-4-mini");
-
-            // モデルがキャッシュされているかどうかを確認します。
-            if (!await modelDef.IsCachedAsync())
-            {
-                // モデルをダウンロードします。
-                // どこにダウンロードされるかは、FoundryLocalManager の構成によって異なります。
-                // デフォルトでは、ユーザーのローカルアプリデータフォルダ内の "FoundryLocal" フォルダにダウンロードされます。
-                await modelDef.DownloadAsync();
-            }
-
-            // モデルがロードされているかどうかを確認します。 
-            if (!await modelDef.IsLoadedAsync())
-            {
-                // モデルをロードします。
-                await modelDef.LoadAsync();
-            }
-
             // GetChatClientAsync メソッドを使用して、チャットクライアントを取得します。
             {
-                // チャットクライアントを取得します。
-                OpenAIChatClient chatClient = await modelDef.GetChatClientAsync();
-                    
                 string userMessage = string.Empty;
                 string assistantMessage = string.Empty;
 
@@ -152,7 +196,7 @@ namespace LocalAIAgentApp.AI
                 userMessage = "こんばんは。自己紹介して";
                 messages.Add(ChatMessage.FromUser(userMessage));
 
-                ChatCompletionCreateResponse response = await chatClient.CompleteChatAsync(messages);
+                ChatCompletionCreateResponse response = await _chatClient.CompleteChatAsync(messages);
                 assistantMessage = response.Choices.FirstOrDefault().Message.Content;
                 messages.Add(ChatMessage.FromAssistant(assistantMessage));
 
@@ -161,7 +205,7 @@ namespace LocalAIAgentApp.AI
                 userMessage = "私と仲良くしてくれる？";
                 messages.Add(ChatMessage.FromUser(userMessage));
 
-                response = await chatClient.CompleteChatAsync(messages);
+                response = await _chatClient.CompleteChatAsync(messages);
                 assistantMessage = response.Choices.FirstOrDefault().Message.Content;
                 messages.Add(ChatMessage.FromAssistant(assistantMessage));
 

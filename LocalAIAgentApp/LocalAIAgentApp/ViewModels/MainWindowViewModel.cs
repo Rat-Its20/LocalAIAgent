@@ -48,6 +48,11 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public ReactiveProperty<string> Test { get; set; } = new ReactiveProperty<string>("TEST");
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public ReactiveProperty<bool> IsEnableTestButton { get; set; } = new ReactiveProperty<bool>(false);
+
         #endregion << Property >>
 
         #region << Command >>
@@ -215,11 +220,17 @@ namespace LocalAIAgentApp.ViewModels
                 modelSettingWindow.DataContext = modelSettingWindowViewModel;
 
                 // モデル設定ウィンドウが閉じられたときの処理を追加
-                modelSettingWindow.Closing += (sender, e) =>
+                modelSettingWindow.Closing += async (sender, e) =>
                 {
                     // モデル設定ウィンドウが閉じられたときに、MainWindowViewModelのAppSettingsとFoundryLocalFacadeを更新
                     _appSettings = modelSettingWindowViewModel._appSettings;
                     _foundryLocalFacade = modelSettingWindowViewModel._foundryLocalFacade;
+
+                    // チャットモードの初期化処理を呼び出す
+                    await _foundryLocalFacade.InitializeChatMode(_appSettings.UseModelAlias);
+
+                    // モデル設定ウィンドウが閉じられた後の処理をここに追加
+                    IsEnableTestButton.Value = true;
                 };
             }
 
