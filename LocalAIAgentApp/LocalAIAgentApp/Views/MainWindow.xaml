@@ -7,6 +7,8 @@
     xmlns:local="clr-namespace:LocalAIAgentApp.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:page="clr-namespace:LocalAIAgentApp.Views.Pages"
+    xmlns:pagevm="clr-namespace:LocalAIAgentApp.ViewModels.Pages"
     xmlns:properties="clr-namespace:LocalAIAgentApp.Resources.Languages"
     Title="{x:Static properties:Resources.ApplicationTitle}"
     Style="{StaticResource MainWindow.Style}"
@@ -86,11 +88,7 @@
 
         <!--  メインコンテンツ  -->
         <Grid Grid.Row="1" Margin="5">
-            <!--<Label Content="{Binding Test.Value}" />-->
-            <Button
-                Command="{Binding TestCommand}"
-                Content="Test Command"
-                IsEnabled="{Binding IsEnableTestButton.Value}" />
+            <page:ChatControl DataContext="{Binding ChatControlViewModel.Value}" />
         </Grid>
     </Grid>
 

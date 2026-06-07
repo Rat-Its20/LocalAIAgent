@@ -38,6 +38,11 @@ namespace LocalAIAgentApp.AI
         /// </summary>
         private OpenAIChatClient _chatClient { get; set; }
 
+        /// <summary>
+        /// Field：Messages は、ChatMessage クラスのインスタンスのリストを格納するためのプロパティです。
+        /// </summary>
+        public List<ChatMessage> _messages { get; set; } = new List<ChatMessage>();
+
         #region << Service >>
 
         /// <summary>
@@ -151,6 +156,8 @@ namespace LocalAIAgentApp.AI
                 return;
             }
 
+            // TODO：例外処理が甘いので、モデルのエイリアスが存在しない場合や、ダウンロードやロードに失敗した場合の例外処理を追加することも検討する。
+
             // モデルをカタログに追加します。
             _modelDef = await _catalog.GetModelAsync(modelAlias);
 
@@ -175,6 +182,29 @@ namespace LocalAIAgentApp.AI
 
             // チャットクライアントを取得します。
             _chatClient = await _modelDef.GetChatClientAsync();
+
+            // Messages を初期化します。
+            _messages = new List<ChatMessage>();
+            _messages.Add(ChatMessage.FromSystem("あなたは優秀なアシスタントです。"));
+        }
+
+        /// <summary>
+        /// Talk メソッドは、ユーザーメッセージを受け取り、チャットクライアントを使用して応答を生成し、その応答を返すためのメソッドです。
+        /// </summary>
+        /// <param name="userMessage">ユーザーメッセージ</param>
+        /// <returns>アシスタントの応答メッセージ</returns>
+        public async Task<string> Talk(string userMessage)
+        {
+            string assistantMessage = string.Empty;
+
+            _messages.Add(ChatMessage.FromUser(userMessage));
+
+            ChatCompletionCreateResponse response = await _chatClient.CompleteChatAsync(_messages);
+            assistantMessage = response.Choices.FirstOrDefault().Message.Content;
+
+            _messages.Add(ChatMessage.FromAssistant(assistantMessage));
+
+            return assistantMessage;
         }
 
         /// <summary>

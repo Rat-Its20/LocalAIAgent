@@ -5,7 +5,9 @@ using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.Services;
 using LocalAIAgentApp.ViewModels;
 using LocalAIAgentApp.ViewModels.Base;
+using LocalAIAgentApp.ViewModels.Pages;
 using LocalAIAgentApp.Views;
+using LocalAIAgentApp.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using Application = System.Windows.Application;
@@ -75,9 +77,11 @@ namespace LocalAIAgentApp
         {
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<ModelSettingWindow>().AsSelf();
+            builder.RegisterType<ChatControl>().AsSelf();
 
             builder.RegisterType<ModelSettingWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
             builder.RegisterType<MainWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
+            builder.RegisterType<ChatControlViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
         }
     }
 }

@@ -4,7 +4,9 @@ using LocalAIAgentApp.Model.Entity.Json;
 using LocalAIAgentApp.Model.Services;
 using LocalAIAgentApp.Services;
 using LocalAIAgentApp.ViewModels.Base;
+using LocalAIAgentApp.ViewModels.Pages;
 using LocalAIAgentApp.Views;
+using LocalAIAgentApp.Views.Pages;
 using Reactive.Bindings;
 using System.Diagnostics;
 
@@ -89,6 +91,15 @@ namespace LocalAIAgentApp.ViewModels
 
         #endregion << Command >>
 
+        #region << View >>
+
+        /// <summary>
+        /// ViewModel：ChatControlViewModel
+        /// </summary>
+        public ReactiveProperty<ChatControlViewModel> ChatControlViewModel { get; set; } = new ReactiveProperty<ChatControlViewModel>();
+
+        #endregion << View >>
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -149,6 +160,11 @@ namespace LocalAIAgentApp.ViewModels
                     {
                         // TODO：モデルの存在確認を行う
                     }
+                }
+
+                // Pageの初期化
+                {
+                    ChatControlViewModel.Value = _lifetimeScope.Resolve<ChatControlViewModel>();
                 }
 
                 // モデルの初期設定が必要な場合は、モデル設定ウィンドウを開く
@@ -228,6 +244,13 @@ namespace LocalAIAgentApp.ViewModels
 
                     // チャットモードの初期化処理を呼び出す
                     await _foundryLocalFacade.InitializeChatMode(_appSettings.UseModelAlias);
+
+                    // ChatControlViewModel に更新された FoundryLocalFacade を設定
+                    ChatControlViewModel.Value.SetService(_foundryLocalFacade);
+
+                    // ChatControlViewModel の送信メッセージテキストボックスを有効化 
+                    ChatControlViewModel.Value.IsEnableSendMessageTextBox.Value = true;
+                    ChatControlViewModel.Value.IsEnableSendButton.Value = true;
 
                     // モデル設定ウィンドウが閉じられた後の処理をここに追加
                     IsEnableTestButton.Value = true;
