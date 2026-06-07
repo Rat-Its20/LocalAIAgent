@@ -11,7 +11,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace LocalAIAgentApp.ViewModels
 {
-    public class ModelSettingWindowViewModel : ViewModelBase
+    public class ModelSettingWindowViewModel : WindowViewModelBase
     {
         /// <summary>
         /// Field：AppSettings は、アプリケーションの設定を格納するためのプロパティです。
@@ -80,6 +80,13 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public override void SetSubscribe()
         {
+            // タイトルバーの左クリックイベントの購読を設定
+            TitleBarMouseLeftDownCommand.Subscribe(e =>
+            {
+                // タイトルバーの左クリックイベントが発生したときに、ウィンドウをドラッグして移動できるようにする処理
+                OnTitleBarMouseLeftButtonDown(Application.Current.Windows.OfType<ModelSettingWindow>().FirstOrDefault(), e);
+            });
+
             // 参照コマンドの購読を設定
             ReferenceCommand.Subscribe(() =>
             {

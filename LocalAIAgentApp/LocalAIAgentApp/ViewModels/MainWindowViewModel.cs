@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace LocalAIAgentApp.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : WindowViewModelBase
     {
         /// <summary>
         /// Field：ILifetimeScope は、依存性注入のスコープを管理するためのプロパティです。
@@ -115,6 +115,13 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public override void SetSubscribe()
         {
+            // タイトルバーの左クリックイベントに対応するコマンドの購読を設定
+            TitleBarMouseLeftDownCommand.Subscribe(e =>
+            {
+                // タイトルバーの左クリックイベントを処理するためのメソッドを呼び出す
+                OnTitleBarMouseLeftButtonDown(App.Current.MainWindow, e);
+            });
+
             // Window 読み込み時
             LoadCommand.Subscribe(_ =>
             {

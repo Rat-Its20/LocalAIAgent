@@ -52,6 +52,13 @@
                     </Button>
                 </StackPanel>
             </Grid>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding TitleBarMouseLeftDownCommand}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
         </Border>
 
         <!--  メインコンテンツ  -->
