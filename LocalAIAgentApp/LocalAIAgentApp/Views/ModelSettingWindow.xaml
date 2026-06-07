@@ -70,19 +70,24 @@
             </Grid.RowDefinitions>
 
             <GroupBox Grid.Row="0" Header="AI Model">
+
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Style="{StaticResource Grid.Row5}" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <GroupBox Grid.Row="0" Header="モデルの読み込み">
+
+                    <!--  モデルの保存先  -->
+                    <GroupBox Grid.Row="0" Header="モデルの保存先">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Label Content="モデルの読み込み先を選択してください。" />
+                            <Label Content="モデルの保存先のフォルダを選択してください。" />
                             <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
@@ -97,6 +102,24 @@
                             </Grid>
                         </Grid>
                     </GroupBox>
+
+                    <!--  モデルの読み込み  -->
+                    <GroupBox Grid.Row="2" Header="モデルの読み込み">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Label Content="モデルを読み込むと、モデルの情報が表示されます。" />
+                            <StackPanel Grid.Row="1" Orientation="Vertical">
+                                <RadioButton
+                                    VerticalContentAlignment="Center"
+                                    Content="モデルを起動時に自動で読み込む"
+                                    IsChecked="{Binding IsAutoLoadModel}" />
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
                 </Grid>
             </GroupBox>
 

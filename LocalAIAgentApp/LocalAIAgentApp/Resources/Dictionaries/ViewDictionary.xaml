@@ -46,18 +46,30 @@
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
 
+    <Style TargetType="{x:Type Control}">
+        <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="14" />
     </Style>
 
-    <Style TargetType="{x:Type Control}">
-        <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
-    </Style>
-
     <Style TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
         <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style TargetType="{x:Type CheckBox}">
+        <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style TargetType="{x:Type RadioButton}">
+        <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="Button">
