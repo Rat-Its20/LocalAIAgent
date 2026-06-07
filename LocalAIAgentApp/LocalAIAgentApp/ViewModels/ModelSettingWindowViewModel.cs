@@ -53,6 +53,11 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public ReactiveCommand SaveCommand { get; set; } = new ReactiveCommand();
 
+        /// <summary>
+        /// 閉じるコマンド：CloseCommand は、ユーザーが閉じるボタンをクリックしたときに実行されるコマンドです。
+        /// </summary>
+        public ReactiveCommand CloseCommand { get; set; } = new ReactiveCommand();
+
         #endregion << Command >>
 
         /// <summary>
@@ -100,8 +105,15 @@ namespace LocalAIAgentApp.ViewModels
                     MessageBox.Show("保存しました。", "保存", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     // ウィンドウを閉じる
-                    Application.Current.Windows.OfType<ModelSettingWindow>().FirstOrDefault()?.Close();
+                    WindowClose();
                 }
+            });
+
+            // 閉じるコマンドの購読を設定
+            CloseCommand.Subscribe(() =>
+            {
+                // ウィンドウを閉じる
+                WindowClose();
             });
         }
 
@@ -144,6 +156,14 @@ namespace LocalAIAgentApp.ViewModels
             }
 
             return isValid;
+        }
+
+        /// <summary>
+        /// WindowClose メソッドは、ウィンドウを閉じるためのメソッドです。
+        /// </summary>
+        private void WindowClose()
+        {
+            Application.Current.Windows.OfType<ModelSettingWindow>().FirstOrDefault()?.Close();
         }
     }
 }

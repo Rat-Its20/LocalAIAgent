@@ -21,6 +21,8 @@ Foundary Localを利用した構築の方法の検討・性能検証用のデモ
 | Autofac | MIT | 9.1.0 | DIコンテナ本体 |
 | Autofac.Extensions.DependencyInjection | MIT | 11.0.0 | DIコンテナ・アダプター |
 | Autofac.Extras.DynamicProxy | MIT | 7.1.0 | ログ・計測用 |
+| MaterialDesignThemes | MIT | 5.3.2 | MaterialDesign |
+| MaterialDesignColors | MIT | 5.3.2 | MaterialDesign |
 | Microsoft.Xaml.Behaviors.Wpf | MIT | 1.1.142 | XAML拡張OSS |
 | ReactiveProperty | MIT | 9.8.0 | ReactiveProperty |
 | ReactiveProperty.Core | MIT | 9.8.0 | ReactiveProperty |

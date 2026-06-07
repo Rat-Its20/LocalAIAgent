@@ -5,12 +5,83 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:LocalAIAgentApp.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:LocalAIAgentApp.Resources.Languages"
     Title="{x:Static properties:Resources.ApplicationTitle}"
     Style="{StaticResource MainWindow.Style}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  タイトルバー  -->
+        <Border Grid.Row="0" Style="{StaticResource Window.Border}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!--  左側：アプリ名  -->
+                <StackPanel
+                    Margin="16,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="16"
+                        FontWeight="SemiBold"
+                        Text="{x:Static properties:Resources.ApplicationTitle}" />
+                </StackPanel>
+
+                <!--  右側：ウィンドウボタン  -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button
+                        Width="48"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding MinimizeCommand}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Text="─" />
+                    </Button>
+
+                    <Button
+                        Width="48"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding MaximizeCommand}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Text="□" />
+                    </Button>
+
+                    <Button
+                        Width="48"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Command="{Binding CloseCommand}">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Text="×" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--  メインコンテンツ  -->
+        <Grid Grid.Row="1" Margin="5">
+            <Label Content="{Binding Test.Value}" />
+        </Grid>
+    </Grid>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -20,9 +91,5 @@
             <i:InvokeCommandAction Command="{Binding ClosingCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-
-    <Grid>
-        <Label Content="{Binding Test.Value}" />
-    </Grid>
 
 </Window>

@@ -53,14 +53,29 @@ namespace LocalAIAgentApp.ViewModels
         #region << Command >>
 
         /// <summary>
-        /// WindowLoadCommand は、ウィンドウのロードイベントに対応するコマンドです。
+        /// LoadCommand は、ウィンドウのロードイベントに対応するコマンドです。
         /// </summary>
         public ReactiveCommand LoadCommand { get; set; } = new ReactiveCommand();
 
         /// <summary>
-        /// WindowClosingCommand は、ウィンドウのクローズイベントに対応するコマンドです。
+        /// ClosingCommand は、ウィンドウのクローズイベントに対応するコマンドです。
         /// </summary>
         public ReactiveCommand ClosingCommand { get; set; } = new ReactiveCommand();
+
+        /// <summary>
+        /// CloseCommand は、ウィンドウを閉じるためのコマンドです。
+        /// </summary>
+        public ReactiveCommand CloseCommand { get; set; } = new ReactiveCommand();
+
+        /// <summary>
+        /// MinimizeCommand は、ウィンドウを最小化するためのコマンドです。
+        /// </summary>
+        public ReactiveCommand MinimizeCommand { get; set; } = new ReactiveCommand();
+
+        /// <summary>
+        /// MaximizeCommand は、ウィンドウを最大化するためのコマンドです。
+        /// </summary>
+        public ReactiveCommand MaximizeCommand { get; set; } = new ReactiveCommand();
 
         #endregion << Command >>
 
@@ -120,13 +135,38 @@ namespace LocalAIAgentApp.ViewModels
                 }
             });
 
-            // Window クローズ時
+            // Window クローズ前
             ClosingCommand.Subscribe(_ =>
             {
                 // FileService を使用して、アプリケーションの設定を保存する。
                 {
                     // AppSettings
                     _fileService.SaveAppSettings(_appSettings);
+                }
+            });
+
+            // ウィンドウを閉じる処理
+            CloseCommand.Subscribe(_ =>
+            {
+                App.Current.Shutdown() ;
+            });
+
+            // ウィンドウを最小化する処理
+            MinimizeCommand.Subscribe(_ =>
+            {
+                App.Current.MainWindow.WindowState = System.Windows.WindowState.Minimized;
+            });
+
+            // ウィンドウを最大化/元に戻す処理
+            MaximizeCommand.Subscribe(_ =>
+            {
+                if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Maximized)
+                {
+                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Normal;
+                }
+                else
+                {
+                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
                 }
             });
         }
