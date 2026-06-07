@@ -7,7 +7,7 @@ namespace LocalAIAgentApp.AI.Services
         /// <summary>
         /// CACHE_NAME はキャッシュの名前を表す定数
         /// </summary>
-        private string CACHE_NAME { get; } = "LocalAIAgent";
+        public string CACHE_NAME { get; } = "LocalAIAgent";
 
         /// <summary>
         /// Constructor

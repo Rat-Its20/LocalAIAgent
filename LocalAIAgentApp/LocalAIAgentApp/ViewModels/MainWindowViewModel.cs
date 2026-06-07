@@ -53,6 +53,11 @@ namespace LocalAIAgentApp.ViewModels
         #region << Command >>
 
         /// <summary>
+        /// TestCommand は、テスト用のコマンドです。
+        /// </summary>
+        public ReactiveCommand TestCommand { get; set; } = new ReactiveCommand();
+
+        /// <summary>
         /// LoadCommand は、ウィンドウのロードイベントに対応するコマンドです。
         /// </summary>
         public ReactiveCommand LoadCommand { get; set; } = new ReactiveCommand();
@@ -115,6 +120,12 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         public override void SetSubscribe()
         {
+            // TestCommand の購読を設定
+            TestCommand.Subscribe(async() =>
+            {
+                await _foundryLocalFacade.TestChat(_appSettings.ModelFolderPath);
+            });
+
             // タイトルバーの左クリックイベントに対応するコマンドの購読を設定
             TitleBarMouseLeftDownCommand.Subscribe(e =>
             {
@@ -123,7 +134,7 @@ namespace LocalAIAgentApp.ViewModels
             });
 
             // Window 読み込み時
-            LoadCommand.Subscribe(_ =>
+            LoadCommand.Subscribe(() =>
             {
                 // モデルの初期設定が必要かを判定
                 {
@@ -143,7 +154,7 @@ namespace LocalAIAgentApp.ViewModels
             });
 
             // Window クローズ前
-            ClosingCommand.Subscribe(_ =>
+            ClosingCommand.Subscribe(() =>
             {
                 // FileService を使用して、アプリケーションの設定を保存する。
                 {
@@ -153,19 +164,19 @@ namespace LocalAIAgentApp.ViewModels
             });
 
             // ウィンドウを閉じる処理
-            CloseCommand.Subscribe(_ =>
+            CloseCommand.Subscribe(() =>
             {
                 App.Current.Shutdown() ;
             });
 
             // ウィンドウを最小化する処理
-            MinimizeCommand.Subscribe(_ =>
+            MinimizeCommand.Subscribe(() =>
             {
                 App.Current.MainWindow.WindowState = System.Windows.WindowState.Minimized;
             });
 
             // ウィンドウを最大化/元に戻す処理
-            MaximizeCommand.Subscribe(_ =>
+            MaximizeCommand.Subscribe(() =>
             {
                 if (App.Current.MainWindow.WindowState == System.Windows.WindowState.Maximized)
                 {

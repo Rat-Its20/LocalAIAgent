@@ -86,7 +86,8 @@
 
         <!--  メインコンテンツ  -->
         <Grid Grid.Row="1" Margin="5">
-            <Label Content="{Binding Test.Value}" />
+            <!--<Label Content="{Binding Test.Value}" />-->
+            <Button Command="{Binding TestCommand}" Content="Test Command" />
         </Grid>
     </Grid>
 

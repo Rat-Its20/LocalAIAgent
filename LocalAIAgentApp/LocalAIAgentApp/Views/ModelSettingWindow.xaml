@@ -112,10 +112,7 @@
                             </Grid.RowDefinitions>
                             <Label Content="モデルを読み込むと、モデルの情報が表示されます。" />
                             <StackPanel Grid.Row="1" Orientation="Vertical">
-                                <RadioButton
-                                    VerticalContentAlignment="Center"
-                                    Content="モデルを起動時に自動で読み込む"
-                                    IsChecked="{Binding IsAutoLoadModel}" />
+                                <RadioButton VerticalContentAlignment="Center" Content="モデルを起動時に自動で読み込む" />
                             </StackPanel>
                         </Grid>
                     </GroupBox>
