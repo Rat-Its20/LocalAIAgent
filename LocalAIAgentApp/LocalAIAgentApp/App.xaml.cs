@@ -77,10 +77,12 @@ namespace LocalAIAgentApp
         {
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<ModelSettingWindow>().AsSelf();
+            builder.RegisterType<DialogWindow>().AsSelf();
             builder.RegisterType<ChatControl>().AsSelf();
 
-            builder.RegisterType<ModelSettingWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
             builder.RegisterType<MainWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
+            builder.RegisterType<ModelSettingWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
+            builder.RegisterType<DialogWindowViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
             builder.RegisterType<ChatControlViewModel>().AsSelf().As<ViewModelBase>().SingleInstance();
         }
     }

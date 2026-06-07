@@ -222,8 +222,8 @@ namespace LocalAIAgentApp.ViewModels
         private void OpenModelSettingWindow()
         {
             // ModelSettingWindowViewModel と ModelSettingWindow を依存性注入コンテナから解決
-            ModelSettingWindowViewModel modelSettingWindowViewModel = _lifetimeScope.Resolve<ModelSettingWindowViewModel>();
             ModelSettingWindow modelSettingWindow = _lifetimeScope.Resolve<ModelSettingWindow>();
+            ModelSettingWindowViewModel modelSettingWindowViewModel = _lifetimeScope.Resolve<ModelSettingWindowViewModel>();
 
             // ViewModel関連の処理
             {
@@ -238,15 +238,57 @@ namespace LocalAIAgentApp.ViewModels
                 // モデル設定ウィンドウが閉じられたときの処理を追加
                 modelSettingWindow.Closing += async (sender, e) =>
                 {
-                    // モデル設定ウィンドウが閉じられたときに、MainWindowViewModelのAppSettingsとFoundryLocalFacadeを更新
-                    _appSettings = modelSettingWindowViewModel._appSettings;
-                    _foundryLocalFacade = modelSettingWindowViewModel._foundryLocalFacade;
+                    // モデル設定ウィンドウが閉じられたときの処理をここに追加
+                    DialogWindow dialogWindow = _lifetimeScope.Resolve<DialogWindow>();
+                    DialogWindowViewModel dialogWindowViewModel = _lifetimeScope.Resolve<DialogWindowViewModel>();
 
-                    // チャットモードの初期化処理を呼び出す
-                    await _foundryLocalFacade.InitializeChatMode(_appSettings.UseModelAlias);
+                    dialogWindow.Owner = App.Current.MainWindow;
+                    dialogWindow.DataContext = dialogWindowViewModel;
 
-                    // ChatControlViewModel に更新された FoundryLocalFacade を設定
-                    ChatControlViewModel.Value.SetService(_foundryLocalFacade);
+                    try
+                    {
+                        // ダイアログを表示
+                        dialogWindow.Show();
+
+                        await Task.Run(async () =>
+                        {
+                            // 更新
+                            {
+                                // モデル設定ウィンドウが閉じられたときに、MainWindowViewModelのAppSettingsとFoundryLocalFacadeを更新
+                                _appSettings = modelSettingWindowViewModel._appSettings;
+                                _foundryLocalFacade = modelSettingWindowViewModel._foundryLocalFacade;
+                            }
+
+                            // チャットモードの初期化処理
+                            {
+                                // Catalogの初期化
+                                dialogWindowViewModel.Message.Value = "カタログの初期化中...";
+                                await _foundryLocalFacade.InitializeCatalogAsync();
+
+                                // モデルのダウンロード
+                                dialogWindowViewModel.Message.Value = $"モデルのダウンロード中...\nモデルのサイズによって数十分かかる場合があります。\n\nモデル：{_appSettings.UseModelAlias}";
+                                await _foundryLocalFacade.DownloadModelAsync(_appSettings.UseModelAlias);
+
+                                // モデルのロード
+                                dialogWindowViewModel.Message.Value = $"モデルの読み込み中...\nモデル：{_appSettings.UseModelAlias}";
+                                await _foundryLocalFacade.LoadModelAsync(_appSettings.UseModelAlias);
+
+                                // チャットモードの初期化
+                                dialogWindowViewModel.Message.Value = "チャットモードの初期化中...";
+                                await _foundryLocalFacade.InitializeChatModeAsync();
+
+                                dialogWindowViewModel.Message.Value = "チャットモードの初期化が完了しました。";
+
+                                // ChatControlViewModel に更新された FoundryLocalFacade を設定
+                                ChatControlViewModel.Value.SetService(_foundryLocalFacade);
+                            }
+                        });
+                    }
+                    finally
+                    {
+                        // ダイアログを閉じる
+                        dialogWindow.Close();
+                    }
 
                     // ChatControlViewModel の送信メッセージテキストボックスを有効化 
                     ChatControlViewModel.Value.IsEnableSendMessageTextBox.Value = true;

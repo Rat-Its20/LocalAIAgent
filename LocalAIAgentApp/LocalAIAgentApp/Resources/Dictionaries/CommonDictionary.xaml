@@ -9,6 +9,9 @@
     <sys:Double x:Key="ModelSettingWindow.Width">650</sys:Double>
     <sys:Double x:Key="ModelSettingWindow.Height">450</sys:Double>
 
+    <sys:Double x:Key="DialogWindow.Width">360</sys:Double>
+    <sys:Double x:Key="DialogWindow.Height">160</sys:Double>
+
     <sys:Double x:Key="BaseFontSize">14</sys:Double>
 
     <Color x:Key="CopilotBackgroundColor">#FF1E1E1E</Color>

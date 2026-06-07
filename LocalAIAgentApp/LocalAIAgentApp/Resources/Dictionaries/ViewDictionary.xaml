@@ -30,6 +30,17 @@
         <Setter Property="MinWidth" Value="{StaticResource ModelSettingWindow.Width}" />
     </Style>
 
+    <Style
+        x:Key="DialogWindow.Style"
+        BasedOn="{StaticResource Window.Base}"
+        TargetType="{x:Type Window}">
+        <Setter Property="Height" Value="{StaticResource DialogWindow.Height}" />
+        <Setter Property="Width" Value="{StaticResource DialogWindow.Width}" />
+        <Setter Property="MinHeight" Value="{StaticResource DialogWindow.Height}" />
+        <Setter Property="MinWidth" Value="{StaticResource DialogWindow.Width}" />
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+
     <Style x:Key="Grid.Column5" TargetType="{x:Type ColumnDefinition}">
         <Setter Property="Width" Value="5" />
     </Style>

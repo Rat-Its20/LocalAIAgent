@@ -138,18 +138,25 @@ namespace LocalAIAgentApp.AI
         }
 
         /// <summary>
-        /// InitializeChatMode メソッドは、指定されたモデルのエイリアスを使用して、チャットモードを初期化するためのメソッドです。
+        /// InitializeCatalogAsync メソッドは、カタログクライアントを初期化するためのメソッドです。
         /// </summary>
-        /// <param name="modelAlias">モデルのエイリアス</param>
         /// <returns></returns>
-        public async Task InitializeChatMode(string modelAlias)
+        public async Task InitializeCatalogAsync()
         {
             // カタログクライアントを取得します。
             if (_catalog == null)
             {
                 _catalog = await GetCatalogAsync();
             }
+        }
 
+        /// <summary>
+        /// DownloadModelAsync メソッドは、指定されたモデルのエイリアスに基づいて、モデルをダウンロードするためのメソッドです。
+        /// </summary>
+        /// <param name="modelAlias">モデルのエイリアス</param>
+        /// <returns></returns>
+        public async Task DownloadModelAsync(string modelAlias)
+        {
             // TODO：モデルのエイリアスが存在するかどうかを確認する処理を追加することも検討する。
             if (!modelAlias.Equals("phi-4-mini"))
             {
@@ -161,25 +168,45 @@ namespace LocalAIAgentApp.AI
             // モデルをカタログに追加します。
             _modelDef = await _catalog.GetModelAsync(modelAlias);
 
-            // モデルが初期化されているかどうかを確認します。
+            // モデルがキャッシュされているかどうかを確認します。
+            if (!await _modelDef.IsCachedAsync())
             {
-                // モデルがキャッシュされているかどうかを確認します。
-                if (!await _modelDef.IsCachedAsync())
-                {
-                    // モデルをダウンロードします。
-                    // どこにダウンロードされるかは、FoundryLocalManager の構成によって異なります。
-                    // デフォルトでは、ユーザーのローカルアプリデータフォルダ内の "FoundryLocal" フォルダにダウンロードされます。
-                    await _modelDef.DownloadAsync();
-                }
+                // モデルをダウンロードします。
+                // どこにダウンロードされるかは、FoundryLocalManager の構成によって異なります。
+                // デフォルトでは、ユーザーのローカルアプリデータフォルダ内の "FoundryLocal" フォルダにダウンロードされます。
+                await _modelDef.DownloadAsync();
+            }
+        }
 
-                // モデルがロードされているかどうかを確認します。 
-                if (!await _modelDef.IsLoadedAsync())
-                {
-                    // モデルをロードします。
-                    await _modelDef.LoadAsync();
-                }
+        /// <summary>
+        /// LoadModelAsync メソッドは、指定されたモデルのエイリアスに基づいて、モデルをロードするためのメソッドです。
+        /// </summary>
+        /// <param name="modelAlias">モデルのエイリアス</param>
+        /// <returns></returns>
+        public async Task LoadModelAsync(string modelAlias)
+        {
+            // TODO：モデルのエイリアスが存在するかどうかを確認する処理を追加することも検討する。
+            if (!modelAlias.Equals("phi-4-mini"))
+            {
+                return;
             }
 
+            // TODO：例外処理が甘いので、モデルのエイリアスが存在しない場合や、ダウンロードやロードに失敗した場合の例外処理を追加することも検討する。
+
+            // モデルがロードされているかどうかを確認します。 
+            if (!await _modelDef.IsLoadedAsync())
+            {
+                // モデルをロードします。
+                await _modelDef.LoadAsync();
+            }
+        }
+
+        /// <summary>
+        /// InitializeChatModeAsync メソッドは、チャットクライアントを初期化するためのメソッドです。
+        /// </summary>
+        /// <returns></returns>
+        public async Task InitializeChatModeAsync()
+        {
             // チャットクライアントを取得します。
             _chatClient = await _modelDef.GetChatClientAsync();
 
