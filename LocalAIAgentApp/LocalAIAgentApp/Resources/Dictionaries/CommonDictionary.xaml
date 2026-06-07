@@ -6,7 +6,7 @@
     <sys:Double x:Key="MainWindow.Width">1280</sys:Double>
     <sys:Double x:Key="MainWindow.Height">768</sys:Double>
 
-    <sys:Double x:Key="ModelSettingWindow.Width">800</sys:Double>
+    <sys:Double x:Key="ModelSettingWindow.Width">650</sys:Double>
     <sys:Double x:Key="ModelSettingWindow.Height">450</sys:Double>
 
 </ResourceDictionary>

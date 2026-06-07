@@ -70,6 +70,24 @@ namespace LocalAIAgentApp.Resources.Languages {
         }
         
         /// <summary>
+        ///   参照 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_Reference {
+            get {
+                return ResourceManager.GetString("Common_Reference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   保存 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_Save {
+            get {
+                return ResourceManager.GetString("Common_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   AIモデル設定画面 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ModelSettingWindow_Title {

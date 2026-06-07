@@ -11,5 +11,60 @@
     Style="{StaticResource ModelSettingWindow.Style}"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
-    <Grid />
+    <Grid Margin="8">
+
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource Button.Base}" TargetType="{x:Type Button}" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Header="AI Model">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Header="モデルの読み込み">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Content="モデルの読み込み先を選択してください。" />
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Style="{StaticResource Grid.Column5}" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding ModelPath.Value}" />
+                            <Button
+                                Grid.Column="2"
+                                Command="{Binding ReferenceCommand}"
+                                Content="{x:Static properties:Resources.Common_Reference}" />
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Grid.Column="2"
+                Command="{Binding SaveCommand}"
+                Content="{x:Static properties:Resources.Common_Save}" />
+        </Grid>
+
+    </Grid>
 </Window>

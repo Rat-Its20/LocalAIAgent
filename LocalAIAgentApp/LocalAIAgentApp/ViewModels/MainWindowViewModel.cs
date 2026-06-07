@@ -2,6 +2,7 @@
 using LocalAIAgentApp.AI;
 using LocalAIAgentApp.Model.Entity.Json;
 using LocalAIAgentApp.Model.Services;
+using LocalAIAgentApp.Services;
 using LocalAIAgentApp.ViewModels.Base;
 using LocalAIAgentApp.Views;
 using Reactive.Bindings;
@@ -12,14 +13,21 @@ namespace LocalAIAgentApp.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         /// <summary>
+        /// Field：ILifetimeScope は、依存性注入のスコープを管理するためのプロパティです。
+        /// </summary>
+        private ILifetimeScope _lifetimeScope { get; set; }
+
+        /// <summary>
         /// Field：AppSettings は、アプリケーションの設定を格納するためのプロパティです。
         /// </summary>
         private AppSettings _appSettings { get; set; }
 
+        #region << Service >>
+
         /// <summary>
-        /// Field：ILifetimeScope は、依存性注入のスコープを管理するためのプロパティです。
+        /// Service：DialogService
         /// </summary>
-        private ILifetimeScope _lifetimeScope { get; set; }
+        private DialogService _dialogService { get; set; }
 
         /// <summary>
         /// Service：FileService
@@ -31,11 +39,15 @@ namespace LocalAIAgentApp.ViewModels
         /// </summary>
         private FoundryLocalFacade _foundryLocalFacade { get; set; }
 
+        #endregion << Service >>
+
         #region << Property >>
+
         /// <summary>
         /// test
         /// </summary>
         public ReactiveProperty<string> Test { get; set; } = new ReactiveProperty<string>("TEST");
+
         #endregion << Property >>
 
         #region << Command >>
@@ -55,9 +67,12 @@ namespace LocalAIAgentApp.ViewModels
         /// <summary>
         /// Constructor
         /// </summary>
-        public MainWindowViewModel(ILifetimeScope lifetimeScope, FileService fileService, FoundryLocalFacade foundryLocalFacade) : base()
+        public MainWindowViewModel(ILifetimeScope lifetimeScope, DialogService dialogService, FileService fileService, FoundryLocalFacade foundryLocalFacade) : base()
         {
             _lifetimeScope = lifetimeScope;
+
+            
+            _dialogService = dialogService;
 
             _foundryLocalFacade = foundryLocalFacade;
 
@@ -129,7 +144,7 @@ namespace LocalAIAgentApp.ViewModels
 
             // ViewModel関連の処理
             {
-                modelSettingWindowViewModel.SetServices(_appSettings, _foundryLocalFacade);
+                modelSettingWindowViewModel.SetServices(_appSettings, _dialogService, _foundryLocalFacade);
             }
 
             // Window関連の処理

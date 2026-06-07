@@ -1,12 +1,14 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using LocalAIAgentApp.AI;
 using LocalAIAgentApp.Model.Services;       
-using LocalAIAgentApp.Views;
+using LocalAIAgentApp.Services;
 using LocalAIAgentApp.ViewModels;
 using LocalAIAgentApp.ViewModels.Base;
+using LocalAIAgentApp.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
-using LocalAIAgentApp.AI;
+using Application = System.Windows.Application;
 
 namespace LocalAIAgentApp
 {
@@ -54,6 +56,9 @@ namespace LocalAIAgentApp
         /// <param name="services"></param>
         private void ConfigureServices(IServiceCollection services)
         {
+            // LocalAIAgentApp
+            services.AddSingleton<DialogService>();
+
             // LocalAIAgentApp.AI
             services.AddSingleton<FoundryLocalFacade>();
 

@@ -120,6 +120,12 @@
   <data name="ApplicationTitle" xml:space="preserve">
     <value>LocalAIAgent</value>
   </data>
+  <data name="Common_Reference" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
   <data name="ModelSettingWindow_Title" xml:space="preserve">
     <value>AIモデル設定画面</value>
   </data>
