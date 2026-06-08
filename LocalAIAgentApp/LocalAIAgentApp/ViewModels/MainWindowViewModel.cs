@@ -227,7 +227,7 @@ namespace LocalAIAgentApp.ViewModels
 
             // ViewModel関連の処理
             {
-                modelSettingWindowViewModel.SetServices(_appSettings, _dialogService, _fileService, _foundryLocalFacade);
+                modelSettingWindowViewModel.SetServices(_lifetimeScope, _appSettings, _dialogService, _fileService, _foundryLocalFacade);
             }
 
             // Window関連の処理
@@ -259,6 +259,12 @@ namespace LocalAIAgentApp.ViewModels
                                 _foundryLocalFacade = modelSettingWindowViewModel._foundryLocalFacade;
                             }
 
+                            // モデル設定ウィンドウでモデルのエイリアスが選択されていない場合は、チャットモードの初期化処理をスキップ
+                            if (string.IsNullOrEmpty(_appSettings.UseModelAlias) || string.IsNullOrEmpty(modelSettingWindowViewModel.SelectedModelAlias.Value))
+                            {
+                                return;
+                            }
+
                             // チャットモードの初期化処理
                             {
                                 // Catalogの初期化
@@ -283,19 +289,19 @@ namespace LocalAIAgentApp.ViewModels
                                 ChatControlViewModel.Value.SetService(_foundryLocalFacade);
                             }
                         });
+
+                        // ChatControlViewModel の送信メッセージテキストボックスを有効化 
+                        ChatControlViewModel.Value.IsEnableSendMessageTextBox.Value = true;
+                        ChatControlViewModel.Value.IsEnableSendButton.Value = true;
+
+                        // モデル設定ウィンドウが閉じられた後の処理をここに追加
+                        IsEnableTestButton.Value = true;
                     }
                     finally
                     {
                         // ダイアログを閉じる
                         dialogWindow.Close();
                     }
-
-                    // ChatControlViewModel の送信メッセージテキストボックスを有効化 
-                    ChatControlViewModel.Value.IsEnableSendMessageTextBox.Value = true;
-                    ChatControlViewModel.Value.IsEnableSendButton.Value = true;
-
-                    // モデル設定ウィンドウが閉じられた後の処理をここに追加
-                    IsEnableTestButton.Value = true;
                 };
             }
 

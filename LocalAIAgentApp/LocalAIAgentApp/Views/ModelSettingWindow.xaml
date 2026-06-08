@@ -150,8 +150,15 @@
                 <Button
                     Grid.Column="2"
                     Command="{Binding SaveCommand}"
-                    Content="{x:Static properties:Resources.Common_Save}" />
+                    Content="{x:Static properties:Resources.Common_Save}"
+                    IsEnabled="{Binding IsEnableSaveButton.Value}" />
             </Grid>
         </Grid>
     </Grid>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 </Window>
