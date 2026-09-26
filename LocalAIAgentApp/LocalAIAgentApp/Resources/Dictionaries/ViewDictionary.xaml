@@ -11,16 +11,6 @@
     </Style>
 
     <Style
-        x:Key="MainWindow.Style"
-        BasedOn="{StaticResource Window.Base}"
-        TargetType="{x:Type Window}">
-        <Setter Property="Height" Value="{StaticResource MainWindow.Height}" />
-        <Setter Property="Width" Value="{StaticResource MainWindow.Width}" />
-        <Setter Property="MinHeight" Value="{StaticResource MainWindow.Height}" />
-        <Setter Property="MinWidth" Value="{StaticResource MainWindow.Width}" />
-    </Style>
-
-    <Style
         x:Key="ModelSettingWindow.Style"
         BasedOn="{StaticResource Window.Base}"
         TargetType="{x:Type Window}">
@@ -28,17 +18,6 @@
         <Setter Property="Width" Value="{StaticResource ModelSettingWindow.Width}" />
         <Setter Property="MinHeight" Value="{StaticResource ModelSettingWindow.Height}" />
         <Setter Property="MinWidth" Value="{StaticResource ModelSettingWindow.Width}" />
-    </Style>
-
-    <Style
-        x:Key="DialogWindow.Style"
-        BasedOn="{StaticResource Window.Base}"
-        TargetType="{x:Type Window}">
-        <Setter Property="Height" Value="{StaticResource DialogWindow.Height}" />
-        <Setter Property="Width" Value="{StaticResource DialogWindow.Width}" />
-        <Setter Property="MinHeight" Value="{StaticResource DialogWindow.Height}" />
-        <Setter Property="MinWidth" Value="{StaticResource DialogWindow.Width}" />
-        <Setter Property="AllowsTransparency" Value="True" />
     </Style>
 
     <Style x:Key="Grid.Column5" TargetType="{x:Type ColumnDefinition}">
@@ -59,32 +38,36 @@
 
     <Style TargetType="{x:Type Control}">
         <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
     </Style>
 
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
+    </Style>
+
+    <Style TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
     </Style>
 
     <Style TargetType="{x:Type Label}">
         <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
     </Style>
 
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
     </Style>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
@@ -94,7 +77,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource CopilotBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="12,6" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
         <Setter Property="FontWeight" Value="SemiBold" />
 
         <Setter Property="Template">
@@ -110,7 +93,7 @@
                                 BlurRadius="8"
                                 Opacity="0.25"
                                 ShadowDepth="2"
-                                Color="#000000" />
+                                Color="{StaticResource Base.Black}" />
                         </Border.Effect>
 
                         <ContentPresenter
@@ -124,16 +107,16 @@
 
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#333333" />
+                <Setter Property="Background" Value="{StaticResource ButtonMouseOverBackground}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#2A2A2A" />
+                <Setter Property="Background" Value="{StaticResource ButtonPressedBackground}" />
             </Trigger>
 
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#66FFFFFF" />
-                <Setter Property="Background" Value="#1AFFFFFF" />
-                <Setter Property="BorderBrush" Value="#33FFFFFF" />
+                <Setter Property="Foreground" Value="{StaticResource ControlDisabledForeground}" />
+                <Setter Property="Background" Value="{StaticResource ButtonDisabledBackground}" />
+                <Setter Property="BorderBrush" Value="{StaticResource ControlDisabledBorderBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -145,7 +128,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="5" />
         <Setter Property="Margin" Value="8" />
-        <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Base}" />
         <Setter Property="FontWeight" Value="SemiBold" />
 
         <Setter Property="Template">
@@ -185,12 +168,86 @@
 
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#66FFFFFF" />
-                <Setter Property="BorderBrush" Value="#33FFFFFF" />
+                <Setter Property="Foreground" Value="{StaticResource ControlDisabledForeground}" />
+                <Setter Property="BorderBrush" Value="{StaticResource ControlDisabledBorderBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ProgressBar.Style" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Height" Value="4" />
+        <Setter Property="Background" Value="{StaticResource ProgressBarBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource ProgressBarForeground}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
 
+    <!--  Window Style  -->
+    <Style x:Key="Window.HeaderLeft.Grid" TargetType="{x:Type Grid}">
+        <Setter Property="Margin" Value="16,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="Window.HeaderLeft.TextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Large}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style x:Key="Window.HeaderRight.StackPanel" TargetType="{x:Type StackPanel}">
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+
+    <Style x:Key="Window.HeaderRight.Button" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="Window.HeaderRight.TextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{StaticResource FontSize.Large}" />
+    </Style>
+
+    <!--  MainWindow Style  -->
+
+    <Style
+        x:Key="MainWindow.Style"
+        BasedOn="{StaticResource Window.Base}"
+        TargetType="{x:Type Window}">
+        <Setter Property="Height" Value="{StaticResource MainWindow.Height}" />
+        <Setter Property="Width" Value="{StaticResource MainWindow.Width}" />
+        <Setter Property="MinHeight" Value="{StaticResource MainWindow.Height}" />
+        <Setter Property="MinWidth" Value="{StaticResource MainWindow.Width}" />
+    </Style>
+
+    <!--  DialogWindow Style  -->
+
+    <Style
+        x:Key="DialogWindow.Style"
+        BasedOn="{StaticResource Window.Base}"
+        TargetType="{x:Type Window}">
+        <Setter Property="Height" Value="{StaticResource DialogWindow.Height}" />
+        <Setter Property="Width" Value="{StaticResource DialogWindow.Width}" />
+        <Setter Property="MinHeight" Value="{StaticResource DialogWindow.Height}" />
+        <Setter Property="MinWidth" Value="{StaticResource DialogWindow.Width}" />
+        <Setter Property="AllowsTransparency" Value="True" />
+    </Style>
+
+    <Style x:Key="DialogWindow.Border" TargetType="{x:Type Border}">
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Background" Value="{StaticResource CopilotBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource CopilotBorderBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
+
+    <Style x:Key="DialogWindow.TextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{StaticResource CopilotText}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,0,0,16" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
 
 </ResourceDictionary>

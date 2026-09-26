@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Autofac.Core.Lifetime;
 using LocalAIAgentApp.AI;
 using LocalAIAgentApp.Model.Entity.Json;
 using LocalAIAgentApp.Model.Services;
@@ -7,7 +6,6 @@ using LocalAIAgentApp.Services;
 using LocalAIAgentApp.ViewModels.Base;
 using LocalAIAgentApp.Views;
 using Reactive.Bindings;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using Application = System.Windows.Application;
@@ -199,27 +197,27 @@ namespace LocalAIAgentApp.ViewModels
 
             // 読込コマンドの購読を設定
             AliasLoadCommand.Subscribe(async() =>
-        {
-            // Enable制御
             {
+                // Enable制御
+                {
                     // モデルエイリアスのコレクションを一時的に無効化して、ユーザーがモデルのエイリアスのリストを更新する前に、モデルのエイリアスのコレクションを操作できないようにします。
-                IsEnableModelAliasCollection.Value = false;
+                    IsEnableModelAliasCollection.Value = false;
 
                     // IsEnableReferenceButton プロパティを false に設定して、ユーザーが参照ボタンをクリックできないようにします。
-                IsEnableReferenceButton.Value = false;
+                    IsEnableReferenceButton.Value = false;
                 }
 
                 // WorkDirectory プロパティの値が有効なフォルダパスであることを検証するロジックを実装する必要があります。
-            if (!_foundryLocalFacade.isInitialized)
-            {
-                await _foundryLocalFacade.CreateManager(_appSettings.WorkDirectoryPath);
-            }
+                if (!_foundryLocalFacade.isInitialized)
+                {
+                    await _foundryLocalFacade.CreateManager(_appSettings.WorkDirectoryPath);
+                }
 
                 // SelectedModelAlias を初期化し、ModelAliasCollection をクリアしてから、FoundryLocalFacade を使用してモデルのエイリアスのリストを取得し、ModelAliasCollection に追加します。
                 SelectedModelAlias.Value = string.Empty;
                 ModelAliasCollection.Clear();
 
-            // FoundryLocalFacade を使用してモデルのエイリアスのリストを取得し、ModelAliasCollection に追加します。
+                // FoundryLocalFacade を使用してモデルのエイリアスのリストを取得し、ModelAliasCollection に追加します。
                 ModelAliasCollection.AddRangeOnScheduler(await _foundryLocalFacade.GetAliasList());
 
                 // AppSettings の UseModelAlias の値を SelectedModelAlias に設定します。
@@ -228,11 +226,11 @@ namespace LocalAIAgentApp.ViewModels
                 // Enable制御
                 {
                     // モデルエイリアスのコレクションを有効化
-                IsEnableModelAliasCollection.Value = true;
+                    IsEnableModelAliasCollection.Value = true;
 
                     // 参照ボタンを再度有効にします。
-                IsEnableReferenceButton.Value = true;
-        }
+                    IsEnableReferenceButton.Value = true;
+                }
             });
 
             // 保存コマンドの購読を設定

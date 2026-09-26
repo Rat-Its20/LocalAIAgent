@@ -11,33 +11,18 @@
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
 
-    <Border
-        Padding="20"
-        Background="#1E1E1E"
-        BorderBrush="#3A3A3A"
-        BorderThickness="1"
-        CornerRadius="12"
-        SnapsToDevicePixels="True">
+    <Border Style="{StaticResource DialogWindow.Border}">
 
         <StackPanel VerticalAlignment="Center">
 
             <!--  メッセージ  -->
             <TextBlock
-                Margin="0,0,0,16"
-                HorizontalAlignment="Center"
-                FontSize="16"
-                FontWeight="SemiBold"
-                Foreground="White"
-                Text="{Binding Message.Value}"
-                TextWrapping="Wrap" />
+                d:Text="Loding..."
+                Style="{StaticResource DialogWindow.TextBlock}"
+                Text="{Binding Message.Value}" />
 
             <!--  プログレスバー（角丸なし）  -->
-            <ProgressBar
-                Height="4"
-                Background="#333333"
-                BorderThickness="0"
-                Foreground="#4CC2FF"
-                IsIndeterminate="True" />
+            <ProgressBar IsIndeterminate="True" Style="{StaticResource ProgressBar.Style}" />
 
         </StackPanel>
     </Border>

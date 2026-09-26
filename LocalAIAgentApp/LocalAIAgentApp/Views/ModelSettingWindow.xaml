@@ -28,27 +28,14 @@
                 </Grid.ColumnDefinitions>
 
                 <!--  左側：アプリ名  -->
-                <StackPanel
-                    Margin="16,0"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        Text="{x:Static properties:Resources.ModelSettingWindow_Title}" />
-                </StackPanel>
+                <Grid Grid.Column="0" Style="{StaticResource Window.HeaderLeft.Grid}">
+                    <TextBlock Style="{StaticResource Window.HeaderLeft.TextBlock}" Text="{x:Static properties:Resources.ModelSettingWindow_Title}" />
+                </Grid>
 
                 <!--  右側：ウィンドウボタン  -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button
-                        Width="48"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding CloseCommand}">
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            FontSize="16"
-                            Text="×" />
+                    <Button Command="{Binding CloseCommand}" Style="{StaticResource Window.HeaderRight.Button}">
+                        <TextBlock Style="{StaticResource Window.HeaderRight.TextBlock}" Text="×" />
                     </Button>
                 </StackPanel>
             </Grid>

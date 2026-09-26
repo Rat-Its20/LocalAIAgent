@@ -12,17 +12,36 @@
     <sys:Double x:Key="DialogWindow.Width">360</sys:Double>
     <sys:Double x:Key="DialogWindow.Height">160</sys:Double>
 
-    <sys:Double x:Key="BaseFontSize">14</sys:Double>
+    <sys:Double x:Key="FontSize.Base">14</sys:Double>
+    <sys:Double x:Key="FontSize.Large">16</sys:Double>
 
+    <Color x:Key="Base.Black">#000000</Color>
     <Color x:Key="CopilotBackgroundColor">#FF1E1E1E</Color>
     <Color x:Key="CopilotSurfaceColor">#FF2A2A2A</Color>
     <Color x:Key="CopilotBorderColor">#FF3A3A3A</Color>
+    <Color x:Key="CopilotBorderBrushColor">#3A3A3A</Color>
     <Color x:Key="CopilotTextColor">#FFFFFFFF</Color>
+    <Color x:Key="ProgressBarBackgroundColor">#FF3A3A3A</Color>
+    <Color x:Key="ProgressBarForegroundColor">#4CC2FF</Color>
+    <Color x:Key="ButtonMouseOverBackgroundColor">#333333</Color>
+    <Color x:Key="ButtonPressedBackgroundColor">#2A2A2A</Color>
+    <Color x:Key="ControlDisabledForegroundColor">#66FFFFFF</Color>
+    <Color x:Key="ButtonDisabledBackgroundColor">#1AFFFFFF</Color>
+    <Color x:Key="ControlDisabledBorderBrushColor">#33FFFFFF</Color>
 
     <SolidColorBrush x:Key="CopilotBackground" Color="{StaticResource CopilotBackgroundColor}" />
     <SolidColorBrush x:Key="CopilotSurface" Color="{StaticResource CopilotSurfaceColor}" />
     <SolidColorBrush x:Key="CopilotBorder" Color="{StaticResource CopilotBorderColor}" />
+    <SolidColorBrush x:Key="CopilotBorderBrush" Color="{StaticResource CopilotBorderBrushColor}" />
     <SolidColorBrush x:Key="CopilotText" Color="{StaticResource CopilotTextColor}" />
+
+    <SolidColorBrush x:Key="ProgressBarBackground" Color="{StaticResource ProgressBarBackgroundColor}" />
+    <SolidColorBrush x:Key="ProgressBarForeground" Color="{StaticResource ProgressBarForegroundColor}" />
+    <SolidColorBrush x:Key="ButtonMouseOverBackground" Color="{StaticResource ButtonMouseOverBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonPressedBackground" Color="{StaticResource ButtonPressedBackgroundColor}" />
+    <SolidColorBrush x:Key="ControlDisabledForeground" Color="{StaticResource ControlDisabledForegroundColor}" />
+    <SolidColorBrush x:Key="ButtonDisabledBackground" Color="{StaticResource ButtonDisabledBackgroundColor}" />
+    <SolidColorBrush x:Key="ControlDisabledBorderBrush" Color="{StaticResource ControlDisabledBorderBrushColor}" />
 
     <SolidColorBrush x:Key="MaterialDesignBody" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="MaterialDesignHeadline" Color="#FFFFFFFF" />
