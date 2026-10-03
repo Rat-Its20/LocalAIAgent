@@ -43,9 +43,9 @@
     <SolidColorBrush x:Key="ButtonDisabledBackground" Color="{StaticResource ButtonDisabledBackgroundColor}" />
     <SolidColorBrush x:Key="ControlDisabledBorderBrush" Color="{StaticResource ControlDisabledBorderBrushColor}" />
 
-    <SolidColorBrush x:Key="MaterialDesignBody" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="MaterialDesignHeadline" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="MaterialDesignSubtitle" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="MaterialDesignButtonForeground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="MaterialDesignBody" Color="{StaticResource CopilotTextColor}" />
+    <SolidColorBrush x:Key="MaterialDesignHeadline" Color="{StaticResource CopilotTextColor}" />
+    <SolidColorBrush x:Key="MaterialDesignSubtitle" Color="{StaticResource CopilotTextColor}" />
+    <SolidColorBrush x:Key="MaterialDesignButtonForeground" Color="{StaticResource CopilotTextColor}" />
 
 </ResourceDictionary>

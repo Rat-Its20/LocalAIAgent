@@ -61,7 +61,13 @@
 
         <!--  メインコンテンツ  -->
         <Grid Grid.Row="1" Margin="5">
-            <page:ChatControl DataContext="{Binding ChatControlViewModel.Value}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Style="{StaticResource Grid.Column5}" />
+                <ColumnDefinition Width="3*" />
+            </Grid.ColumnDefinitions>
+
+            <page:ChatControl Grid.Column="2" DataContext="{Binding ChatControlViewModel.Value}" />
         </Grid>
     </Grid>
 
